@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    {{ Object.keys(cartProducts).length }}
     <base-header :cart-products="cartProducts">
       <template #default="{ cartItem }">
         <base-cart-dropdown v-bind="{ item: cartItem }" />
@@ -18,7 +19,7 @@ export default {
   data() {
     return {
       products: [],
-      cartProducts: [],
+      cartProducts: {},
     };
   },
   async fetch() {
@@ -33,11 +34,22 @@ export default {
           title: product.title,
           description: product.description,
           net_price: product.retail_price.formatted_value,
+          id: product.uuid,
         };
       });
     },
     addProductToCart(item) {
-      this.cartProducts.push(item);
+      if (this.cartProducts[item.id]) {
+        this.$set(this.cartProducts, item.id, {
+          ...item,
+          quantity: this.cartProducts[item.id].quantity + 1,
+        });
+      } else {
+        this.$set(this.cartProducts, item.id, {
+          ...item,
+          quantity: 1,
+        });
+      }
     },
   },
 };

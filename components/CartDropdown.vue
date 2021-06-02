@@ -2,7 +2,7 @@
   <div class="cart-dropdown" v-bind="$attrs">
     <div
       class="grid grid-cols-3 border border-b-1 border-gray-200 p-5"
-      v-for="(item, index) in item"
+      v-for="(item, name, index) in item"
       :key="index"
     >
       <img
@@ -13,7 +13,7 @@
       />
       <div class="flex flex-col ml-2 break-words">
         <h1 class="font-bold">{{ item.title }}</h1>
-        <p>1 X {{ item.net_price }}</p>
+        <p>{{ item.quantity }} X {{ item.net_price }}</p>
       </div>
       <button class="flex justify-end">
         <img src="~assets/svg/cancel-button.svg" alt="" srcset="" class="w-4" />
@@ -26,7 +26,7 @@
 export default {
   props: {
     item: {
-      type: Array,
+      type: Object,
     },
   },
 };

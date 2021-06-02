@@ -57,7 +57,7 @@
 export default {
   props: {
     cartProducts: {
-      type: Array,
+      type: Object,
       required: true,
     },
   },
@@ -68,11 +68,11 @@ export default {
   },
   computed: {
     getCartlength() {
-      return this.cartProducts?.length;
+      return Object.keys(this.cartProducts).length;
     },
     getPrice() {
       return (
-        this.cartProducts.reduce((acc, num) => {
+        Object.values(this.cartProducts).reduce((acc, num) => {
           let matches = num.net_price.toString().match(/[0-9]{1,}\.[0-9]{1,}/);
           if (matches?.length) {
             return acc + Number(matches[0]);
