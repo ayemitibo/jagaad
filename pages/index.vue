@@ -7,7 +7,26 @@
     </base-header>
     <main class="product-page">
       <div class="container">
+        <!-- <base-spinner v-if="loading" /> -->
+
         <base-product :products="products" @add-product="addProductToCart" />
+        <base-pagination ref="paginate" @get-products="getProducts">
+          <template #default="{ currentItem }">
+            <li
+              class="pagination__item"
+              v-for="item in 6"
+              :key="item"
+              @click="paginateProducts(item)"
+            >
+              <a
+                href="#"
+                class="pagination__link"
+                :class="[currentItem === item ? 'active' : null]"
+                >{{ item }}
+              </a>
+            </li>
+          </template>
+        </base-pagination>
       </div>
     </main>
   </div>
@@ -19,6 +38,7 @@ export default {
     return {
       products: [],
       cartProducts: {},
+      loading: false,
     };
   },
   async fetch() {
@@ -26,6 +46,7 @@ export default {
   },
   methods: {
     async getProducts(params) {
+      this.loading = true;
       let request = await this.$repo.getProducts(params);
       this.products = request.map((product) => {
         return {
@@ -36,6 +57,7 @@ export default {
           id: product.uuid,
         };
       });
+      this.loading = false;
     },
     addProductToCart(item) {
       if (this.cartProducts[item.id]) {
@@ -50,8 +72,20 @@ export default {
         });
       }
     },
+    async paginateProducts(payload) {
+      await this.getProducts({ limit: 6, offset: payload });
+      this.$nextTick(async () => {
+        await this.$refs.paginate.next(payload);
+      });
+    },
   },
 };
 </script>
 
-<style>
+<style lang="scss">
+.pagination__link {
+  &.active {
+    @apply underline;
+  }
+}
+</style>

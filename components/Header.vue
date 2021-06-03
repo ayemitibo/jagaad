@@ -7,7 +7,7 @@
         @click.stop="shown = !shown"
       >
         <div class="header-bag__price">
-          {{ getPrice && getPrice.toFixed(2) }}
+          &euro; {{ getPrice && getPrice.toFixed(2) }}
         </div>
         <svg
           class="icon"
