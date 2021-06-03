@@ -22,7 +22,7 @@ $ npm run generate
 ```
 $ docker build -t jagaad-task .
 
-$docker run -t -i -d -p 8080:8080 jagaad-task
+$ docker run -t -i -d -p 8080:8080 jagaad-task
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).

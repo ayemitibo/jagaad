@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    {{ Object.keys(cartProducts).length }}
     <base-header :cart-products="cartProducts">
       <template #default="{ cartItem }">
         <base-cart-dropdown v-bind="{ item: cartItem }" />
