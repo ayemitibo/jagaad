@@ -18,7 +18,7 @@ describe('Load content ', () => {
         }).as("products")
     })
     it('Gets product from the API', () => {
-        cy.visit('http://localhost:3000')
+        cy.visit('/')
         cy.get('@products').then(({ body }) => {
             products = body.map((product) => {
                 return {
