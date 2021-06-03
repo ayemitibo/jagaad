@@ -75,7 +75,7 @@ export default {
         Object.values(this.cartProducts).reduce((acc, num) => {
           let matches = num.net_price.toString().match(/[0-9]{1,}\.[0-9]{1,}/);
           if (matches?.length) {
-            return acc + Number(matches[0]);
+            return acc + Number(num.quantity * matches[0]);
           }
         }, 0) || 0
       );
