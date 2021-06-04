@@ -17,10 +17,8 @@ $ npm run start
 $ npm run generate
 ```
 
-## Docker Setup
+## Star the project and test with docker
 
 ```
 $ docker-compose up --build -d
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
