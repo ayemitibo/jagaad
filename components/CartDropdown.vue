@@ -12,12 +12,26 @@
         class="cart-image"
       />
       <div class="flex flex-col ml-2 break-words">
-        <h1 class="font-bold">{{ item.title }}</h1>
+        <h1 class="font-bold truncate overflow-ellipsis" :title="item.title">
+          {{ item.title }}
+        </h1>
         <p>{{ item.quantity }} X {{ item.net_price }}</p>
       </div>
-      <button class="flex justify-end">
+      <button
+        class="flex justify-end"
+        @click="$emit('deleteItem', { name, type })"
+      >
         <img src="~assets/svg/cancel-button.svg" alt="" srcset="" class="w-4" />
       </button>
+    </div>
+    <div
+      v-if="total > 0"
+      class="bg-red py-8 mx-4 flex justify-between text-lg font-bold border-b-2 border-gray-300 border-dashed mb-4"
+    >
+      <span class="text-gray-400"
+        ><span class="uppercase">{{ type }}</span> SUBTOTAL:</span
+      >
+      <span class="ml-4">&euro;{{ total }}</span>
     </div>
   </div>
 </template>
@@ -28,23 +42,23 @@ export default {
     item: {
       type: Object,
     },
+    total: [Number, String],
+    type: [String],
   },
 };
 </script>
 
 <style scoped lang="scss">
 .cart-dropdown {
+  @apply shadow-xl;
   position: absolute;
-  top: 60px;
-  left: 10px;
-  transform: translate(1000px, 0);
+  top: 45px;
+  right: 0px;
   width: auto;
   min-width: 300px;
-  min-height: 340px;
   height: auto;
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
   background-color: white;
   z-index: 5;
   .cart-image {

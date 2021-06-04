@@ -1,15 +1,22 @@
 <template>
   <div class="container">
-    <base-header :cart-products="cartProducts">
-      <template #default="{ cartItem }">
-        <base-cart-dropdown v-bind="{ item: cartItem }" />
+    <base-header :cart-products="cart" :wishlist="wishlist">
+      <template #cart="{ cartItemProp, total }">
+        <base-cart-dropdown
+          v-bind="{ item: cartItemProp, total, type: 'cart' }"
+          @deleteItem="deleteItem"
+        />
+      </template>
+      <template #wishlist="{ wishListProp, total }">
+        <base-cart-dropdown
+          @deleteItem="deleteItem"
+          v-bind="{ item: wishListProp, total, type: 'wishlist' }"
+        />
       </template>
     </base-header>
     <main class="product-page">
       <div class="container">
-        <!-- <base-spinner v-if="loading" /> -->
-
-        <base-product :products="products" @add-product="addProductToCart" />
+        <base-product :products="products" @add-product="addProduct" />
         <base-pagination ref="paginate" @get-products="getProducts">
           <template #default="{ currentItem }">
             <li
@@ -37,7 +44,8 @@ export default {
   data() {
     return {
       products: [],
-      cartProducts: {},
+      cart: {},
+      wishlist: {},
       loading: false,
     };
   },
@@ -59,14 +67,14 @@ export default {
       });
       this.loading = false;
     },
-    addProductToCart(item) {
-      if (this.cartProducts[item.id]) {
-        this.$set(this.cartProducts, item.id, {
+    addProduct({ item, type }) {
+      if (this[type][item.id]) {
+        this.$set(this[type], item.id, {
           ...item,
-          quantity: this.cartProducts[item.id].quantity + 1,
+          quantity: this[type][item.id].quantity + 1,
         });
       } else {
-        this.$set(this.cartProducts, item.id, {
+        this.$set(this[type], item.id, {
           ...item,
           quantity: 1,
         });
@@ -77,6 +85,10 @@ export default {
       this.$nextTick(async () => {
         await this.$refs.paginate.next(payload);
       });
+    },
+    deleteItem({ name, type }) {
+      console.log("here");
+      this.$delete(this[type], name);
     },
   },
 };

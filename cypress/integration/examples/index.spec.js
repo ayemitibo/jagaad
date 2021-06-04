@@ -18,7 +18,7 @@ describe('Load content ', () => {
         }).as("products")
     })
     it('Gets product from the API', () => {
-        cy.visit('/')
+        cy.visit('http://localhost:3000/')
         cy.get('@products').then(({ body }) => {
             products = body.map((product) => {
                 return {
@@ -43,9 +43,9 @@ describe('Load content ', () => {
     })
 
     it('shows the cart item', () => {
-        cy.get(".header-bag__count").click()
-        cy.get(".cart-dropdown").should("be.visible").children().should('have.length', 1)
-        cy.get(".header-bag__count").click()
+        cy.get(".bag-icon").click()
+        cy.get(".cart-dropdown").should("be.visible").children().should('have.length', 2)
+        cy.get(".bag-icon").click()
     })
 
     it('paginates the products', () => {
